@@ -8,6 +8,7 @@ col1, col2 = st.columns(2)
 
 with col1.container(horizontal_alignment="distribute"):
     st.markdown("""
+    THIS IS A TEST
     Hello! I'm Andrew Thomas, a Machine Learning and Data Scientist with a passion for deep learning and generative AI. 
     With a strong foundation in the Sciences, and hands-on experience in Python programming, I specialize in building innovative AI solutions that drive real-world impact.
     """, 
