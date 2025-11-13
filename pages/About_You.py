@@ -2,7 +2,8 @@ import streamlit as st
 from PIL import Image
 
 st.title(":red[About You]")
-st.header("Learn more about where this app is hosted!")
+st.header("Learn more about where this app is hosted!",
+          divider=True)
 
 st.markdown("""
 This app is hosted on a **Raspberry Pi 4**, a small and affordable computer that you can use to learn programming and build projects.
