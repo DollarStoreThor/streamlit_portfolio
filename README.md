@@ -24,4 +24,4 @@
 If you have any questions or would like to collaborate, please reach out to me at andrewlilethomas@gmail.com
 Thank you for visiting my project portfolio! I hope you find something that interests you.
 Happy coding!
-- Andrew Lile Thomas 
+- ***Andrew Lile Thomas***
