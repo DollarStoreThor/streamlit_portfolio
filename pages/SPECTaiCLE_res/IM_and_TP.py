@@ -12,6 +12,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pytesseract
+import streamlit as st
 
 # Get the absolute path to the model file
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -35,8 +36,8 @@ def flip_black_white_fast(image):
     # Count white pixels and stop early if they exceed the threshold
     white_pixels = np.sum(image_array > 128)
 
-    # If more than 50% of the pixels are white, invert the image
-    if white_pixels > white_threshold:
+    # If less than 50% of the pixels are white, invert the image
+    if white_pixels < white_threshold:
         inverted_image = ImageOps.invert(image)
         flip_black_white_fastend_time = time.time()
         print(f"flip_black_white_fast took {flip_black_white_fastend_time - flip_black_white_faststart_time:.2f} seconds - INVERSION")
@@ -126,17 +127,16 @@ def correctImage(images, save_dir=None):
         #Convert the Image to grayscale
         image = image.convert('L')
 
+        # Apply adaptive thresholding to binarize the image
+        blur_value = 5  # Size of the neighborhood 
+        blurred_image = cv2.GaussianBlur(np.array(image), (blur_value, blur_value), 0)
+        _, image = cv2.threshold(blurred_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    
+        # Convert back to PIL Image
+        image = Image.fromarray(image)
+
         # Invert if white predominates in the image
         image = flip_black_white_fast(image)
-
-        #Black and White Image
-        image = np.array(image)
-        image = cv2.medianBlur(image, 3)
-
-
-
-
-        image = Image.fromarray(image)
 
         # Ensure save_dir exists or use original image directory
         if save_dir is None:
@@ -269,6 +269,10 @@ def rename_results_with_boundingBox(results, source, text_prediction_mode = Fals
                 print(f"Renamed: {original_file} -> {new_file_path}")
         else:
             print(f"File not found: {original_file}")
+
+    st.image(image=f"pages/SPECTaiCLE_res/Predict/predict{num_predictions_total}/{file_name}{file_type}", 
+             caption="All predicted book spines", 
+             use_container_width=True)
 
     return cropped_images_dir
 

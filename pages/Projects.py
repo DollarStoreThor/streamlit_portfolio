@@ -25,7 +25,7 @@ with prod1:
 
         st.markdown("""
         ***Role:***\n
-            - Developer and Project Lead
+            - Project Lead and Developer
         """)
 
         st.markdown("""

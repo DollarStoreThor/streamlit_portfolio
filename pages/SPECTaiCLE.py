@@ -9,13 +9,15 @@ st.set_page_config(page_title="Andrew - SPECTaiCLE",
                    initial_sidebar_state="expanded")
 
 st.title(":red[SPECT]ai:red[CLE]")
-st.subheader("Explore the SPECT:red[ai]CLE Project! 📚", divider=True)
+st.subheader("Rediscover your shelf! 📚", divider=True)
 
-image = st.file_uploader("Upload Image of your Bookshelf", 
+with st.spinner("Uploading your image..."):
+    image = st.file_uploader("Upload Image of your Bookshelf", 
                          type=["png", "jpg", "jpeg"])
+    
 if image is not None:
-    st.image(image, caption="Uploaded Bookshelf Image",
-             use_container_width=True) 
+    #st.image(image, caption="Uploaded Bookshelf Image",
+    #        use_container_width=True) 
     
     # Save the uploaded image locally
     save_dir = "pages/SPECTaiCLE_res/Input"
@@ -25,7 +27,9 @@ if image is not None:
     with open(file_path, "wb") as f:
         f.write(image.getbuffer())
 
-    all_predicted_book_spines = [get_books(correctImages=True, cullNullTextImages=False, image_file_paths=[file_path])]
+    # Process the image to get predicted book spines
+    with st.spinner("Reading book spines..."):
+        all_predicted_book_spines = [get_books(correctImages=True, cullNullTextImages=False, image_file_paths=[file_path])]
     st.markdown("### Detected Books:")
     for book in all_predicted_book_spines[0]:
         st.markdown(f"- {book}")
