@@ -2,10 +2,10 @@ import streamlit as st
 
 
 st.title(":red[Projects]")
-st.header("Explore Andrew's Projects!📈", divider=True)
+st.header("Explore Andrew's Projects! 📈", divider=True)
 
 
-prod1 = st.container(horizontal_alignment="distribute")
+prod1 = st.container(horizontal_alignment="distribute", gap ="medium", border=True)
 with prod1:
     col1, col2 = st.columns([1, 1],
                             gap="medium",
@@ -22,7 +22,7 @@ with prod1:
     with col2.container(horizontal_alignment="distribute", vertical_alignment="center"):
         st.components.v1.iframe("https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7287009237438803968?compact=1", height=399, width=504, scrolling=True)
 
-prod2 = st.container(horizontal_alignment="distribute")
+prod2 = st.container(horizontal_alignment="distribute", gap="medium", border=True)
 with prod2:
     col1, col2 = st.columns([1, 1],
                             gap="medium",
@@ -41,7 +41,7 @@ with prod2:
                  width="content")
 
 
-prod3 = st.container(horizontal_alignment="distribute")
+prod3 = st.container(horizontal_alignment="distribute", gap="medium", border=True)
 with prod3:
     col1, col2 = st.columns([1, 1],
                             gap="medium",
