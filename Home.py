@@ -6,12 +6,11 @@ st.set_page_config(page_title="Andrew",
                    initial_sidebar_state="expanded")
 
 
-
 col1, col2 = st.columns([1, 1],
-                        gap="medium",
+                        gap="small",
                         vertical_alignment="top")
 
-with col1.container(horizontal_alignment="distribute"):
+with col1.container(horizontal_alignment="distribute", gap="small"):
     st.title(":red[Andrew's Portfolio]")
     st.subheader("Welcome to my professional portfolio!👋", divider=True)
 
@@ -34,7 +33,7 @@ with col1.container(horizontal_alignment="distribute"):
     sub_col2.markdown("[GitHub](https://github.com/DollarStoreThor)")
     sub_col3.markdown("[Email](mailto:andrewlilethomas@gmail.com)")
 
-with col2.container(horizontal_alignment="distribute", ):
+with col2.container(horizontal_alignment="distribute", gap="small"):
     st.image("Images/Andrew_Fullbody.png") # Replace with your image URL
     
 with st.container(horizontal_alignment="center", border=True):
