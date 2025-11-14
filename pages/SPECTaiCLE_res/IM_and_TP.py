@@ -13,8 +13,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pytesseract
 
-
-model = YOLO('yolo11n_v9iTrained.pt')
+# Get the absolute path to the model file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(current_dir, 'model_v9i.pt')
+model = YOLO(model_path)
 
 """
 Image Maniplation and Text Preprocessing Functions for SPECTaiCLE
@@ -179,7 +181,7 @@ def process_folder(folder_path):
     return files
 
 # Set the path to the Tesseract executable (if not in PATH)
-pytesseract.pytesseract.tesseract_cmd = r"c:\Users\arado\Desktop\Full_Stack_Final_Project\tesseract ocr\tesseract.exe"
+#pytesseract.pytesseract.tesseract_cmd = r"c:\Users\arado\Desktop\Full_Stack_Final_Project\tesseract ocr\tesseract.exe"
 
 def detect_text(image_path, oem=1, psm=3):
     detect_textstart_time = time.time()
@@ -224,7 +226,7 @@ def detect_text(image_path, oem=1, psm=3):
 def rename_results_with_boundingBox(results, source, text_prediction_mode = False):
 
     # Regex to extract the file name
-    pattern = r"[^\\]+$"
+    pattern = r"[^/]+$"
     match_filename = re.search(pattern, source)
     file_name = None
     if match_filename:
@@ -246,9 +248,11 @@ def rename_results_with_boundingBox(results, source, text_prediction_mode = Fals
 
 
     for i, box in enumerate(results[0].boxes.xyxy):  # Access bounding boxes
-        x_min, y_min, x_max, y_max = map(int, box)  # Convert to integers
-    
-        cropped_images_dir = "C:\\Users\\arado\\Desktop\\Full_Stack_Final_Project\\runs\\detect\\predict\\crops\\Book"
+        x_min, y_min, x_max, y_max = map(int, box)  # Convert to 
+
+        num_predictions_total = len(os.listdir("pages/SPECTaiCLE_res/Predict/"))
+
+        cropped_images_dir = f"pages/SPECTaiCLE_res/Predict/predict{num_predictions_total}/crops/Book"
 
         # Construct the new file name
         if i == 0:
@@ -278,7 +282,7 @@ def get_spines(source, save=False):
                     line_width = 2, #Text and Line Thickness
                     save_crop=save, #If set to TRUE It will automaticlly crop out the bounding box of predictions and save them to ( runs/detect/predict/crops )
                     save_txt=save, #Saves annotations in YOLO format to ( runs/detect/predict/labels )
-                    project = "/SPECTaiCLE_res/Predict/", #Project Directory
+                    project = "pages/SPECTaiCLE_res/Predict/", #Project Directory
                 )
     
     rename_results_with_boundingBox(results=results, source=source)
@@ -286,7 +290,7 @@ def get_spines(source, save=False):
     get_spinesend_time = time.time()
     print(f"save_frame took {get_spinesend_time - get_spinesstart_time:.2f} seconds")   
 
-def read_photos(clear_input_folder = True, correctImages=False, folder_path = "/SPECTaiCLE_res/Input/"):
+def read_photos(clear_input_folder = True, correctImages=False, folder_path = "pages/SPECTaiCLE_res/Input/"):
     read_photosstart_time = time.time()
     # Specify your folder path here
     files = process_folder(folder_path)
@@ -408,7 +412,7 @@ def compare_user_input(user_input, book_spines=[], heatmap=False, printEverythin
                 print(coords)  # e.g., (1355, 1031, 1952, 1220)
 
                 # Construct the image path
-                image_path = f"C:\\Users\\arado\\Desktop\\Full_Stack_Final_Project\\runs\\detect\\predict\\{result}{file_type}"
+                image_path = f"pages/SPECTaiCLE_res/Predict/{result}{file_type}"
 
                 # Open the image
                 image = Image.open(image_path)

@@ -1,6 +1,8 @@
 import streamlit as st
 import os
 
+from pages.SPECTaiCLE_res.IM_and_TP import get_books
+
 st.set_page_config(page_title="Andrew - SPECTaiCLE",
                    layout="centered",
                    page_icon="📚",
@@ -22,6 +24,11 @@ if image is not None:
     file_path = os.path.join(save_dir, image.name)
     with open(file_path, "wb") as f:
         f.write(image.getbuffer())
+
+    all_predicted_book_spines = [get_books(correctImages=True, cullNullTextImages=False, image_file_paths=[file_path])]
+    st.markdown("### Detected Books:")
+    for book in all_predicted_book_spines[0]:
+        st.markdown(f"- {book}")
 
 with st.container():
     message = st.chat_input("Ask me about the books on your shelf!", key="chat_input")
