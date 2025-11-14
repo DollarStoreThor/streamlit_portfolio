@@ -16,7 +16,7 @@ if image is not None:
              use_container_width=True) 
     
     # Save the uploaded image locally
-    save_dir = "/SPECTaiCLE_res/Input"
+    save_dir = "pages/SPECTaiCLE_res/Input"
     os.makedirs(save_dir, exist_ok=True)
     
     file_path = os.path.join(save_dir, image.name)
