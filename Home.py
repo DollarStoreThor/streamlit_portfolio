@@ -13,11 +13,13 @@ col1, col2 = st.columns([1, 1],
 
 with col1.container(horizontal_alignment="distribute"):
     st.title(":red[Andrew's Portfolio]")
-    st.header("Welcome to my professional portfolio!👋", divider=True)
+    st.subheader("Welcome to my professional portfolio!👋", divider=True)
 
-    st.markdown("Hello! I'm Andrew Thomas, a Machine Learning and Data Scientist with a passion for deep learning and generative AI. " \
-    "With a strong foundation in Biochemistry and hands-on experience in Python programming, I specialize in building innovative AI solutions that drive real-world impact.",
-    width="stretch")
+    st.markdown("""
+    Hello! I'm Andrew Thomas, a Machine Learning and Data Scientist with a passion for deep learning and generative AI. 
+    With a strong foundation in the Sciences, and hands-on experience in Python programming, I specialize in building innovative AI solutions that drive real-world impact.
+    """, 
+    width="content")
 
 
     st.markdown("My goal is to create impactful solutions, leveraging my unique blend of scientific expertise and technical skills. " \

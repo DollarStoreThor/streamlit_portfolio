@@ -2,7 +2,7 @@ import streamlit as st
 
 
 st.title(":red[Projects]")
-st.header("Explore Andrew's Projects! 📈", divider=True)
+st.subheader("Explore Andrew's Projects! 📈", divider=True)
 
 
 prod1 = st.container(horizontal_alignment="distribute", gap ="medium", border=True)
