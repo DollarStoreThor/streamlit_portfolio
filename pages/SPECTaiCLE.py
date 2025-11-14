@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 
 st.set_page_config(page_title="Andrew - SPECTaiCLE",
                    layout="centered",
@@ -11,8 +12,16 @@ st.subheader("Explore the SPECT:red[ai]CLE Project! 📚", divider=True)
 image = st.file_uploader("Upload Image of your Bookshelf", 
                          type=["png", "jpg", "jpeg"])
 if image is not None:
-    st.image(image, caption="Uploaded Bookshelf Image", 
-             use_container_width=True)
+    st.image(image, caption="Uploaded Bookshelf Image",
+             use_container_width=True) 
+    
+    # Save the uploaded image locally
+    save_dir = "/SPECTaiCLE_res/Input"
+    os.makedirs(save_dir, exist_ok=True)
+    
+    file_path = os.path.join(save_dir, image.name)
+    with open(file_path, "wb") as f:
+        f.write(image.getbuffer())
 
 with st.container():
     message = st.chat_input("Ask me about the books on your shelf!", key="chat_input")
