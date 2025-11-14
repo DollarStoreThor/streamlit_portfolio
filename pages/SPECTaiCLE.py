@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.title(":red[SPECT]ai:red[CLE]")
-st.subheader("Explore the SPECTaiCLE Project! 📚", divider=True)
+st.subheader("Explore the SPECT:red[ai]CLE Project! 📚", divider=True)
 
 image = st.file_uploader("Upload Image of your Bookshelf", 
                          type=["png", "jpg", "jpeg"])

@@ -6,7 +6,7 @@ st.subheader("Learn about where this app is hosted! 📍",
           divider=True)
 
 st.markdown("""
-This app is hosted on a **Raspberry Pi 4**, a small and affordable computer that you can use to learn programming and build projects.
+This website is hosted on a **Raspberry Pi 4**, a small and affordable computer that you can use to learn programming and build projects.
 The Raspberry Pi 4 is equipped with a **Quad-core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz**, making it powerful enough to run various applications, including web apps like this one built with Streamlit.
 """)
 

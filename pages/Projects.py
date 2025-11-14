@@ -1,7 +1,7 @@
 import streamlit as st
 
 
-st.title(":red[Projects]")
+st.title(":red[My Projects]")
 st.subheader("Explore Andrew's Projects! 📈", divider=True)
 
 
@@ -13,10 +13,21 @@ with prod1:
 
     with col1.container(horizontal_alignment="distribute"):
         st.markdown("""
-        ### Project 1: AI-Powered Chatbot
-        Developed an AI-powered chatbot using natural language processing techniques to assist users in real-time.
-        
-        Implemented using Python and TensorFlow, the chatbot can understand and respond to user queries effectively.
+        ### SPECTaiCLE: AI-Powered Book Locator 📚
+        ***Project Description:***
+        Developed an AI-powered book locator that helps users find books in a library using YOLO computer vision.
+        The system uses an image to identify book titles and their locations on shelves.
+        """)
+
+        st.markdown("***Role:*** Developer and Project Lead")
+
+        st.markdown("""
+        ***Technologies Used:***
+        - Python 
+        - YOLO
+        - Tesseract OCR
+        - OpenCV
+        - Streamlit
         """)
 
     with col2.container(horizontal_alignment="distribute", vertical_alignment="center"):
