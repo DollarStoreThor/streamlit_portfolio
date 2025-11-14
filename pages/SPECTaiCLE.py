@@ -1,5 +1,10 @@
 import streamlit as st
 
+st.set_page_config(page_title="Andrew - SPECTaiCLE",
+                   layout="centered",
+                   page_icon="📚",
+                   initial_sidebar_state="expanded")
+
 st.title(":red[SPECT]ai:red[CLE]")
 st.subheader("Explore the SPECT:red[ai]CLE Project! 📚", divider=True)
 

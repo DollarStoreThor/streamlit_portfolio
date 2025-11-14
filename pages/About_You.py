@@ -1,6 +1,11 @@
 import streamlit as st
 from PIL import Image
 
+st.set_page_config(page_title="Andrew - About You",
+                   layout="centered",
+                   page_icon="📍",
+                   initial_sidebar_state="expanded")
+
 st.title(":red[About You]")
 st.subheader("Learn about where this app is hosted! 📍",
           divider=True)
@@ -17,6 +22,10 @@ By hosting this app on a Raspberry Pi 4, I aim to demonstrate the capabilities o
 Feel free to explore the app and see how it performs on this versatile hardware!
 """)
 
-st.image("Images/20251113_140124.jpg", caption="Raspberry Pi 4 Setup", use_container_width=True)
+img = Image.open("Images/20251113_140124.jpg")
+# Ensure image is vertical (portrait orientation)
+if img.width > img.height:
+    img = img.rotate(-90, expand=True)
+st.image(img, caption="Raspberry Pi 4 Setup", use_container_width=True)
 
 st.markdown("If you're interested in learning more about Raspberry Pi or how to host your own apps, feel free to reach out!")

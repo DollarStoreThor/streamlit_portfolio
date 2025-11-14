@@ -1,8 +1,8 @@
 import streamlit as st
 
-st.set_page_config(page_title="Andrew",
+st.set_page_config(page_title="Andrew's Portfolio",
                    layout="centered",
-                   page_icon=":briefcase:",
+                   page_icon="💼",
                    initial_sidebar_state="expanded")
 
 

@@ -1,5 +1,9 @@
 import streamlit as st
 
+st.set_page_config(page_title="Andrew - Projects",
+                   layout="centered",
+                   page_icon="📈",
+                   initial_sidebar_state="expanded")
 
 st.title(":red[My Projects]")
 st.subheader("Explore Andrew's Projects! 📈", divider=True)
