@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.title(":red[About Me]")
-st.header("Learn more about me!👋",
+st.subheader("Learn more about me!👋",
           divider=True)
 
 col1, col2 = st.columns(2)

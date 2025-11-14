@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 
 st.title(":red[About You]")
-st.header("Learn about where this app is hosted! 📍",
+st.subheader("Learn about where this app is hosted! 📍",
           divider=True)
 
 st.markdown("""
