@@ -181,7 +181,7 @@ def process_folder(folder_path):
     return files
 
 # Set the path to the Tesseract executable (if not in PATH)
-#pytesseract.pytesseract.tesseract_cmd = r"c:\Users\arado\Desktop\Full_Stack_Final_Project\tesseract ocr\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
 
 def detect_text(image_path, oem=1, psm=3):
     detect_textstart_time = time.time()
