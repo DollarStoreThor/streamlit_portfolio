@@ -15,14 +15,12 @@ with prod1:
         st.markdown("""
         ### Project 1: AI-Powered Chatbot
         Developed an AI-powered chatbot using natural language processing techniques to assist users in real-time.
+        
         Implemented using Python and TensorFlow, the chatbot can understand and respond to user queries effectively.
         """)
 
     with col2.container(horizontal_alignment="distribute", vertical_alignment="center"):
-        st.image("Images/20251113_135617.jpg", 
-                 caption="Project 1: AI-Powered Chatbot", 
-                 width="content")
-    
+        st.components.v1.iframe("https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7287009237438803968?compact=1", height=399, width=504, scrolling=True)
 
 prod2 = st.container(horizontal_alignment="distribute")
 with prod2:
