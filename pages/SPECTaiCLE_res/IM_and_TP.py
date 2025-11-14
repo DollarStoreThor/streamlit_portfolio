@@ -244,15 +244,11 @@ def rename_results_with_boundingBox(results, source, text_prediction_mode = Fals
 
     #remove the file type from the end of the filename string
     file_name = file_name.removesuffix(file_type)
-    
-
+    num_predictions_total = len(os.listdir("pages/SPECTaiCLE_res/Predict/"))
+    cropped_images_dir = f"pages/SPECTaiCLE_res/Predict/predict{num_predictions_total}/crops/Book"
 
     for i, box in enumerate(results[0].boxes.xyxy):  # Access bounding boxes
         x_min, y_min, x_max, y_max = map(int, box)  # Convert to 
-
-        num_predictions_total = len(os.listdir("pages/SPECTaiCLE_res/Predict/"))
-
-        cropped_images_dir = f"pages/SPECTaiCLE_res/Predict/predict{num_predictions_total}/crops/Book"
 
         # Construct the new file name
         if i == 0:
@@ -274,6 +270,8 @@ def rename_results_with_boundingBox(results, source, text_prediction_mode = Fals
         else:
             print(f"File not found: {original_file}")
 
+    return cropped_images_dir
+
 def get_spines(source, save=False):
     get_spinesstart_time = time.time()
     results = model.predict(source = source, #Location of item to predict {'filepath: such as .mp4 videos, or .jpg photos', '0 for webcam', 'local hosting ip adresses'}
@@ -285,12 +283,13 @@ def get_spines(source, save=False):
                     project = "pages/SPECTaiCLE_res/Predict/", #Project Directory
                 )
     
-    rename_results_with_boundingBox(results=results, source=source)
+    current_cropped_images_dir = rename_results_with_boundingBox(results=results, source=source)
 
     get_spinesend_time = time.time()
-    print(f"save_frame took {get_spinesend_time - get_spinesstart_time:.2f} seconds")   
+    print(f"save_frame took {get_spinesend_time - get_spinesstart_time:.2f} seconds")
+    return current_cropped_images_dir   
 
-def read_photos(clear_input_folder = True, correctImages=False, folder_path = "pages/SPECTaiCLE_res/Input/"):
+def read_photos(clear_input_folder = True, correctImages=False, folder_path = "pages/SPECTaiCLE_res/Predict/"):
     read_photosstart_time = time.time()
     # Specify your folder path here
     files = process_folder(folder_path)
@@ -325,13 +324,13 @@ def read_photos(clear_input_folder = True, correctImages=False, folder_path = "p
 ###
 all_predicted_book_spines = []
 def get_books(correctImages=True, cullNullTextImages = False, image_file_paths = []):
-    # YOLO Model Inference   
+    # YOLO Model Inference
     for item in image_file_paths:
         # Perform inference
-        get_spines(item, save=True)     
+        cropped_images_dir = get_spines(item, save=True)     
 
     # Process each image independently
-    books = read_photos(clear_input_folder=False, correctImages=correctImages)
+    books = read_photos(clear_input_folder=False, correctImages=correctImages, folder_path=cropped_images_dir)
 
     if books:  # Make sure books is not empty
         if cullNullTextImages:
