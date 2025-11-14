@@ -13,25 +13,35 @@ with prod1:
 
     with col1.container(horizontal_alignment="distribute"):
         st.markdown("""
-        ### SPECTaiCLE: AI-Powered Book Locator 📚
+        ### SPECTaiCLE: AI-Powered Book Locator 📙
         ***Project Description:***
         Developed an AI-powered book locator that helps users find books in a library using YOLO computer vision.
         The system uses an image to identify book titles and their locations on shelves.
         """)
 
-        st.markdown("***Role:*** Developer and Project Lead")
+        st.markdown("""
+        ***Role:***\n
+            - Developer and Project Lead
+        """)
 
         st.markdown("""
-        ***Technologies Used:***
-        - Python 
-        - YOLO
-        - Tesseract OCR
-        - OpenCV
-        - Streamlit
+        ***Technologies Used:***\n
+            - Python 
+            - YOLO
+            - Tesseract OCR
+            - OpenCV
+            - Streamlit
         """)
 
     with col2.container(horizontal_alignment="distribute", vertical_alignment="center"):
         st.components.v1.iframe("https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7287009237438803968?compact=1", height=399, width=504, scrolling=True)
+        
+        st.markdown(" --- ")
+
+        st.page_link("pages/SPECTaiCLE.py", 
+                     label="Try SPECTaiCLE for Yourself!", 
+                     use_container_width=True,
+                     icon="📚")
 
 prod2 = st.container(horizontal_alignment="distribute", gap="medium", border=True)
 with prod2:
