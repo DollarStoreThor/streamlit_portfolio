@@ -34,6 +34,8 @@ if image is not None:
     for book in all_predicted_book_spines[0]:
         st.markdown(f"- {book}")
 
+    st.balloons()
+
 with st.container():
     message = st.chat_input("Ask me about the books on your shelf!", key="chat_input")
     if message:
