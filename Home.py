@@ -34,10 +34,10 @@ with col1.container(horizontal_alignment="distribute", gap="small"):
     sub_col3.markdown("[Email](mailto:andrewlilethomas@gmail.com)")
 
 with col2.container(horizontal_alignment="distribute", gap="small"):
-    st.image("Images/Andrew_Fullbody.png") # Replace with your image URL
-    
-with st.container(horizontal_alignment="center", border=True):
+    st.image("Images/Headshot-Picsart-BackgroundRemover.jpg") # Replace with your image URL
+    with st.container(horizontal_alignment="center", border=True):
         st.text("Data Scientist  |  Machine Learning Engineer  |  Tech Enthusiast  | Problem Solver")
+
 
 with st.sidebar:
     # Sidebar content
