@@ -42,7 +42,7 @@ with prod1:
         
         st.markdown(" --- ")
 
-        st.page_link("pages/SPECTaiCLE.py", 
+        st.page_link("pages/SPECTaiCLE 📚.py", 
                      label="Try SPECTaiCLE for Yourself!", 
                      use_container_width=True,
                      icon="📚")

@@ -1,13 +1,11 @@
 import streamlit as st
 
-st.title("Quilted Pattern Evolution Game")
-st.set_page_config(page_title="Andrew - Quilted Patterns",
+st.set_page_config(page_title="Genetic Pattern Generator",
                    layout="centered",
                    page_icon="🧵",
                    initial_sidebar_state="expanded")
-
-
-st.subheader("Explore Quilted Patterns! 🧵", divider=True)
+st.title("Genetic Pattern Matching 🧵")
+st.subheader("Genetic Algorithm Pattern Generator", divider=True)
 
 
 import numpy as np
@@ -361,14 +359,12 @@ def founder_population(population_size=8):
         population.append(quilted_pattern())
     return population
 
-def selection(population, verbose=False):
-    st.write("Select two parents from the following population:")
-    
+def selection(population, verbose=False):    
     col1, col2 = st.columns(2)
     with col1:
-        Parent_1_choice = st.number_input("Select Parent 1 (index):", min_value=1, max_value=len(population), value=1, key="parent1")
+        Parent_1_choice = st.number_input("Select Parent 1:", min_value=1, max_value=len(population), value=1, key="parent1")
     with col2:
-        Parent_2_choice = st.number_input("Select Parent 2 (index):", min_value=1, max_value=len(population), value=2, key="parent2")
+        Parent_2_choice = st.number_input("Select Parent 2:", min_value=1, max_value=len(population), value=2, key="parent2")
     
     if verbose:
         st.write("Pattern Similarity Between Selected Parents:")
@@ -414,9 +410,7 @@ def game_loop(verbose=False):
     
     #st.write(f"### Generation: {st.session_state.generations}")
     display_population(st.session_state.population, st.session_state.item_to_match)
-    
-    st.write("Evolve your patterns to match the target pattern!")
-    
+        
     # Selection
     selected = selection(population=st.session_state.population, verbose=verbose)
     
@@ -462,13 +456,6 @@ def game_loop(verbose=False):
             else:
                 st.info(f"Final Score: {score:.2f}", icon="🥹")
 
-            
-            if st.button("Start New Game"):
-                
-                for key in list(st.session_state.keys()):
-                    del st.session_state[key]
-
-                #st.rerun()
 
 with st.container():
     game_loop()
