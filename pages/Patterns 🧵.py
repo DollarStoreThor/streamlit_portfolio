@@ -11,6 +11,7 @@ st.subheader("Genetic Algorithm Pattern Generator", divider=True)
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage.metrics import structural_similarity as ssim
+import os
 
 
 class quilted_pattern():
@@ -443,8 +444,28 @@ def game_loop(verbose=False):
             final_pattern = st.session_state.population[final_choice - 1]
             similarity = pattern_similarity(final_pattern, st.session_state.item_to_match)
             score = similarity / ((st.session_state.generations + 99) / 100000)
+
+            # Read Local High Score
+            high_score_file = "pages/Patterns_res/high_score.txt"
             
-            if score > 950:
+            # Read existing high score or create file if it doesn't exist
+            if os.path.exists(high_score_file):
+                with open(high_score_file, "r") as f:
+                    high_score = float(f.read().strip())
+            else:
+                high_score = 0.0
+                os.makedirs(os.path.dirname(high_score_file), exist_ok=True)
+            
+            # Update high score if current score is better
+            if score > high_score:
+                with open(high_score_file, "w") as f:
+                    f.write(f"{score:.2f}")
+                st.success(f"🎉 New High Score: {score:.2f} (Previous: {high_score:.2f})")
+                st.balloons()
+            else:
+                st.info(f"High Score: {high_score:.2f}")
+            
+            if score > 925:
                 st.balloons()
                 st.success(f"Final Score: {score:.2f}", icon="🏆")
             elif score > 900:
