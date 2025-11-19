@@ -362,27 +362,26 @@ def founder_population(population_size=8):
     return population
 
 def selection(population, verbose=False):
-    print("Select two parents from the following population:")
-    Parent_1_choice = int(input("Select Parent 1: (ENTER THE INDEX)"))
-    Parent_2_choice = int(input("Select Parent 2: (ENTER THE INDEX)"))
-
-    #ensure user selects valid parents
-    if Parent_1_choice < 1 or Parent_1_choice > len(population) or Parent_2_choice < 1 or Parent_2_choice > len(population):
-        print("Invalid selection. Please select valid parent indices.")
-        return selection(population)
+    st.write("Select two parents from the following population:")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        Parent_1_choice = st.number_input("Select Parent 1 (index):", min_value=1, max_value=len(population), value=1, key="parent1")
+    with col2:
+        Parent_2_choice = st.number_input("Select Parent 2 (index):", min_value=1, max_value=len(population), value=2, key="parent2")
     
     if verbose:
-        print("Pattern Similarity Between Bred Patterns:")
-        print(pattern_similarity(population[Parent_1_choice - 1], population[Parent_2_choice - 1]))
+        st.write("Pattern Similarity Between Selected Parents:")
+        st.write(pattern_similarity(population[Parent_1_choice - 1], population[Parent_2_choice - 1]))
 
     return population[Parent_1_choice-1], population[Parent_2_choice-1]
 
 color_map = ['Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds',
-                      'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
-                      'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']
+             'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
+             'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']
 
 def display_population(population, item_to_match):
-    fig, axes = plt.subplots(2, 4, figsize=(15, 6))
+    fig1, axes = plt.subplots(2, 4, figsize=(15, 10))
     axes = axes.flatten()
     for i in range(len(population)):
         axes[i].set_title(f'Quilt {i+1}')
@@ -390,74 +389,86 @@ def display_population(population, item_to_match):
         axes[i].imshow(population[i].DONE, cmap=color_map[color_map_index])
         axes[i].axis('off')
     plt.tight_layout()
-    st.pyplot(fig)
 
-    # visulaize the item_to_match
-    fig, ax = plt.subplots(figsize=(6, 6))
-    ax.set_title('Item to Match')
+    fig2, ax = plt.subplots(figsize=(6, 6))
+    ax.set_title('Target Pattern')
     color_map_index = item_to_match.GENOME[40:60].sum() % len(color_map)
     ax.imshow(item_to_match.DONE, cmap=color_map[color_map_index])
     ax.axis('off')
-    st.pyplot(fig)
+
+    col1, col2 = st.columns([2, 1], gap="small", vertical_alignment="top")
+    with col1:
+        st.pyplot(fig1)
+    with col2:
+        st.pyplot(fig2)
+    
+    plt.close('all')
+
 
 def game_loop(verbose=False):
-
-    # Founder Population
-    population = founder_population()
-    item_to_match = quilted_pattern()
-
-    # Display Founder Population
-    display_population(population, item_to_match)
-
+    # Initialize session state
+    if 'population' not in st.session_state:
+        st.session_state.population = founder_population()
+        st.session_state.item_to_match = quilted_pattern()
+        st.session_state.generations = 1
+    
+    #st.write(f"### Generation: {st.session_state.generations}")
+    display_population(st.session_state.population, st.session_state.item_to_match)
+    
     st.write("Evolve your patterns to match the target pattern!")
-    generations = 1
+    
+    # Selection
+    selected = selection(population=st.session_state.population, verbose=verbose)
+    
+    # Mutation 
+    if st.session_state.generations == 1:
+        introduce_mutation = st.checkbox("Introduce mutation?", value=True)
+    else:
+        introduce_mutation = st.checkbox("Introduce mutation?", value=False)
 
-    # Human Selection and Breeding 
-    continue_evolving = True
-    while continue_evolving:
-        st.write(f"Generation: {generations}")
-        selected = selection(population=population)
-        new_population = breed(selected[0], selected[1], num_children=len(population), num_chromosomes=5)
-
-        # Force Mutations on Genration 1
-        if generations == 1:
-            introduce_mutation = 'y'
-        # Ask User if they want to introduce mutations on subsequent generations
-        else:
-            introduce_mutation = st.chat_input("Introduce mutation? (y/n)")
-
-        # Apply mutations if user chooses to
-        if introduce_mutation.lower() == 'y':
+    # Breed button
+    if st.button("Breed Next Generation", type="primary"):
+        new_population = breed(selected[0], selected[1], num_children=len(st.session_state.population), num_chromosomes=5)
+        
+        if introduce_mutation:
             for i in range(len(new_population)):
                 new_population[i] = mutate(new_population[i], mutation_rate=0.005)
-
-        # Update population and generation count
-        population = new_population
-        generations += 1
-
-        # Display current population's similarity scores (if verbose == True)
-        if verbose:
-            for item in population:
-                st.write("Pattern Similarity to Item to Match:", pattern_similarity(item, item_to_match))
         
-        # Draw current population
-        display_population(population, item_to_match)
+        st.session_state.population = new_population
+        st.session_state.generations += 1
+        st.rerun()
 
-        # Ask user if they want to continue evolving
-        continue_evolving = st.chat_input("Continue evolution? (y/n)") == 'y'
-
-    # Final Selection for the User to choose their best pattern
-    user_choice_index = -1
-    while user_choice_index < 1 or user_choice_index > len(population):
-            user_choice_index = int(st.chat_input(f'Select your final pattern choice (1-{len(population)}): '))
-            if 1 <= user_choice_index <= len(population):
-                break
+    if st.session_state.generations > 1:
+        # Final selection
+        st.divider()
+        st.write("### Submit Final Pattern")
+        final_choice = st.number_input(f'Select your final pattern (1-{len(st.session_state.population)}):', 
+                                        min_value=1, max_value=len(st.session_state.population), value=1, key="final")
+        
+        if st.button("Submit Final Choice"):
+            final_pattern = st.session_state.population[final_choice - 1]
+            similarity = pattern_similarity(final_pattern, st.session_state.item_to_match)
+            score = similarity / ((st.session_state.generations + 99) / 100000)
+            
+            if score > 950:
+                st.balloons()
+                st.success(f"Final Score: {score:.2f}", icon="🏆")
+            elif score > 900:
+                st.success(f"Final Score: {score:.2f}", icon="🥇")
+            elif score > 800:
+                st.success(f"Final Score: {score:.2f}", icon="🥈")
+            elif score > 700:
+                st.success(f"Final Score: {score:.2f}", icon="🥉")
             else:
-                st.write(f"Please enter a number between 1 and {len(population)}.")
+                st.info(f"Final Score: {score:.2f}", icon="🥹")
 
-    final_user_choice = population[user_choice_index - 1]
-    st.write(pattern_similarity(final_user_choice, item_to_match))
-    st.write("Final score: ", (pattern_similarity(final_user_choice, item_to_match) // ((generations + 99) / 100000)))
+            
+            if st.button("Start New Game"):
+                
+                for key in list(st.session_state.keys()):
+                    del st.session_state[key]
+
+                #st.rerun()
 
 with st.container():
     game_loop()
