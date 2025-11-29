@@ -63,7 +63,7 @@ housing_df = original_housing_df.copy()
 """)
 
 st.markdown("""
-## Task 1: Explore the dataset
+## Task 1: Explore the Dataset
 
 Before deciding what feature engineering techniques to apply, I explore the dataset to understand its characteristics.
 
@@ -96,31 +96,19 @@ st.markdown("""
 - MedHouseVal - 0.71400 to 5.00001 - Median House Value (Target)
 """)
 
-st.markdown("""`
-```python
-housing_df.info()
-""")
-st.dataframe(housing_df.info())
 
-st.markdown("""`
+st.markdown("""
 ```python
 housing_df.describe()
 """)
 st.dataframe(housing_df.describe())
 
-st.markdown("""`
-```python
-housing_df.isnull().sum()
-""")
-
-
-st.dataframe(housing_df.isnull().sum())
 
 st.markdown("""
 ```python
 to_chart = ["MedInc", "HouseAge", "AveRooms", "AveBedrms", "Population", "AveOccup"]
 
-# Determin relationship between extreme MEDHOUSVAL and other features
+# Determine relationship between extreme MEDHOUSVAL and other features
 extreme_highend_housing_df = housing_df[(housing_df['MedHouseVal'] >= 5)]
 extreme_highend_housing_df
 
@@ -198,7 +186,7 @@ to_chart = ["MedInc", "HouseAge", "AveRooms", "AveBedrms", "Population", "AveOcc
 
 # Determin relationship between extreme MEDHOUSVAL and other features
 extreme_highend_housing_df = housing_df[(housing_df['MedHouseVal'] >= 5)]
-extreme_highend_housing_df
+#extreme_highend_housing_df
 
 extreme_lowend_housing_df = housing_df[(housing_df['MedHouseVal'] <= 1)]
 
@@ -206,6 +194,66 @@ extreme_lowend_housing_df = housing_df[(housing_df['MedHouseVal'] <= 1)]
 # Explore features with histograms and PDFs on the same chart
 for feature in to_chart:
     st.image(f"pages/FE_res/basic/extreme_high_low_medhouseval_{feature}.png", caption=f'Feature', use_container_width=True)
+
+
+st.markdown("""
+```python
+# See if I can get the shape of Callifornia
+coords = housing_df[['Latitude', 'Longitude']].values
+
+import matplotlib.pyplot as plt
+plt.figure(figsize=(12, 9))
+scatter = plt.scatter(coords[:, 1], coords[:, 0], s=1000/housing_df['Population'], cmap='rainbow', alpha=0.6, c=housing_df['MedHouseVal'])
+plt.legend(*scatter.legend_elements(), title="Scaled MedHouseVal")
+plt.colorbar(label='MedHouseVal')
+plt.title('California Housing Locations with Population Size')
+plt.savefig('california_housing_locations.png')
+""")
+
+st.image('pages/FE_res/california_housing_locations.png', caption='California Housing Locations with Population Size', use_container_width=True)
+
+
+st.markdown("""
+## Task 2: Apply My First Feature Engineering Technique
+
+Based on my exploration, apply my first feature engineering technique.
+
+**Example approaches**:
+- Transform skewed features using log, sqrt, power, or quantile transformations
+- Create bins/categories from continuous variables
+- Create interaction features (e.g., rooms per household = total rooms / households)
+""")
+
+st.markdown("""
+```python
+'''Perform the following operations:
+- MedInc - 1.8715 to 11.1567 - Median Income
+- HouseAge - 2.0 to 52.0 - House Age
+- AveRooms - 2.942116 to 8.813167	- Average num Rooms ---> Clip greater than 25 to 25
+- AveBedrms - 0.917840	to 1.187970 - Average num Bedrooms ----> Clip greater than 5 to 5
+- Population -	614.0 to 2212.0 - City Population ----> Clip greater than 10,000 to 10,000
+- AveOccup - 2.445110 to 4.776243 - Average num People in House  ----> Clip greater than 100 to 100
+'''
+
+housing_df['AveRooms'] = housing_df['AveRooms'].clip(upper=25)
+housing_df['AveBedrms'] = housing_df['AveBedrms'].clip(upper=5)
+housing_df['Population'] = housing_df['Population'].clip(lower= 10, upper=10000)       # Current Best is lower= 10, upper=10000
+housing_df['AveOccup'] = housing_df['AveOccup'].clip(upper=10)                         # Current Best is  upper=10
+housing_df['MedInc'] = housing_df['MedInc'].clip(lower= 1.2, upper=10.5)               # Current Best is lower= 1.2, upper=10.5
+
+housing_df.describe()
+""")
+
+housing_df['AveRooms'] = housing_df['AveRooms'].clip(upper=25)
+housing_df['AveBedrms'] = housing_df['AveBedrms'].clip(upper=5)
+housing_df['Population'] = housing_df['Population'].clip(lower= 10, upper=10000)       # Current Best is lower= 10, upper=10000
+housing_df['AveOccup'] = housing_df['AveOccup'].clip(upper=10)                         # Current Best is  upper=10
+housing_df['MedInc'] = housing_df['MedInc'].clip(lower= 1.2, upper=10.5)               # Current Best is lower= 1.2, upper=10.5
+
+st.dataframe(housing_df.describe())
+
+
+
 
 
 
