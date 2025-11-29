@@ -205,7 +205,7 @@ extreme_lowend_housing_df = housing_df[(housing_df['MedHouseVal'] <= 1)]
 
 # Explore features with histograms and PDFs on the same chart
 for feature in to_chart:
-    st.image(f"FE_res/extreme_high_low_medhouseval/extreme_high_low_medhouseval_{feature}.png")
+    st.image(f"FE_res/basic/extreme_high_low_medhouseval_{feature}.png")
 
 
 
